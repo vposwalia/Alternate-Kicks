@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>Login Page</title>
+    <style>
+      /* Add some basic styles to center the form */
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px #ccc;
+      }
+
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+      
+      .error {
+        color: red;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="POST" action="/login" name="loginForm" novalidate>
+      <h1>Login</h1>
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" ng-model="username" ng-maxlength="10" required />
+      <span class="error" ng-show="loginForm.username.$error.required">Username is required</span>
+      <span class="error" ng-show="loginForm.username.$error.maxlength">Username must be less than 10 characters</span>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" ng-model="password" ng-minlength="8" required />
+      <span class="error" ng-show="loginForm.password.$error.required">Password is required</span>
+      <span class="error" ng-show="loginForm.password.$error.minlength">Password must be at least 8 characters long</span>
+      <input type="submit" value="Login" ng-disabled="loginForm.$invalid" onclick="handleLogin()"/></br>
+      <button onclick="window.location.href = 'http://localhost:2007/signup';">Sign up</button>
+    </form>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      function handleLogin() {
+        // get the form values
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+
+        // perform login logic here, e.g. sending a POST request to a server with the form data
+        // if login is successful, redirect to index.html
+        if (username === 'demo' && password === 'demo') { // example credentials, replace with actual login logic
+          alert('Login Successful');
+          window.location.href = 'index.html';
+        } else {
+          alert('Login Successful'); // show error message if login is unsuccessful
+        }
+      }
+      function submitLoginForm() {
+  // Get the values of the username and password fields
+  var username = document.forms["loginForm"]["username"].value;
+  var password = document.forms["loginForm"]["password"].value;
+
+  // Check if the username and password fields are empty
+  if (username == "" || password == "") {
+    alert("Please fill in all fields");
+    return false;
+  }
+
+  // Perform an AJAX request to submit the login form
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "/login");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      // Redirect the user to index.html
+      window.location.href = 'index.html';
+    }
+  };
+  xhr.send(JSON.stringify({ username: username, password: password }));
+
+  return false;
+}
+
+    </script>
+  </body>
+</html>

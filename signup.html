@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signup.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.usernamePattern = /^.{1,10}$/;
+            $scope.passwordPattern = /^.{8,}$/;
+        });
+    </script>
+</head>
+<body ng-controller="myCtrl">
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form name="signupForm" action="/signup" method="POST">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" ng-pattern="usernamePattern" ng-model="username" required>
+            <div ng-show="signupForm.username.$error.pattern">Username must be between 1 and 10 characters</div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" ng-pattern="passwordPattern" ng-model="password" required>
+            <div ng-show="signupForm.password.$error.pattern">Password must be at least 8 characters long</div>
+            <input type="submit" value="Sign Up" ng-disabled="signupForm.$invalid">
+        </form>
+    </div>
+</body>
+</html>
